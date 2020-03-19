@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+namespace _1._Furniture
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> boughtFurniture = new List<string>();
+
+            decimal spendMoney = 0;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Purchase")
+                { break; }
+                Regex regex = new Regex(@">>([A-Za-z\s]+)<<(\d+\.?\d*)!(\d+)");
+                MatchCollection current = regex.Matches(input);
+
+                foreach (Match m in current)
+                {
+                    string name = m.Groups[1].Value;
+                    decimal price = decimal.Parse(m.Groups[2].Value);
+                    int count = int.Parse(m.Groups[3].Value);
+                    spendMoney += price * count;
+                    boughtFurniture.Add(name);
+                }
+
+
+
+            }
+
+            Console.WriteLine("Bought furniture:");
+            if (boughtFurniture.Count > 0)
+            
+                Console.WriteLine(String.Join(Environment.NewLine,boughtFurniture));
+
+                Console.WriteLine($"Total money spend: {spendMoney:f2}");
+            
+            
+        }
+    }
+}
