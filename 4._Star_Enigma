@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace _4._Star_Enigma
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            List<string> attack = new List<string>();
+            List<string> detroy = new List<string>();
+
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                char[] token = input.ToCharArray();
+            
+
+                Regex regex = new Regex(@"[sSTtRrAa]");
+                MatchCollection matches = regex.Matches(input);
+                int key = matches.Count;
+
+                List<char> mesagge = new List<char>();
+
+                for (int k = 0; k < token.Length; k++)
+                {  
+                    int current = ((int)token[k]);
+                    int realMesagge = current - key;
+                    char forAdding = ((char)realMesagge);
+                    mesagge.Add(forAdding);
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (var item in mesagge)
+                {
+                    stringBuilder.Append(item);
+                }
+                
+                string currentMes = stringBuilder.ToString();
+
+               string rgx = @"@([A-Z][a-z]+)[^@\-!.]*\:(\d+)!([A|D])![^@\-!.]*\->(\d+)";
+                var decripted = Regex.Match(currentMes, rgx); ;
+                if (decripted.Success)
+                {
+                    string planet = decripted.Groups[1].Value;
+                    if (decripted.Groups[3].Value == "A")
+                    {
+                       
+                        attack.Add(planet);
+
+                    }
+                    if (decripted.Groups[3].Value == "D")
+                    { detroy.Add(planet);
+                    }
+                }
+             }
+
+            Console.WriteLine($"Attacked planets: {attack.Count}");
+            if (attack.Count > 0)
+                foreach (var item in attack.OrderBy(x=>x))
+                {
+                    Console.WriteLine($"-> {item}");
+
+                }
+            Console.WriteLine($"Destroyed planets: {detroy.Count}");
+            if (detroy.Count > 0)
+                foreach (var item in detroy.OrderBy(x => x))
+                {
+                    Console.WriteLine($"-> {item}");
+
+                }
+        }
+
+    }
+}
+
+
+//@([A - Za - z]+)[^@\-!:>]:([0 - 9]+)[^@\-!:>]!([AD])![^@\-!:>]->([0 - 9]+) 
