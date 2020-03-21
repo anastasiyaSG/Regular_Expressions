@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+
+namespace _5._Nether_Realms
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] names = Console.ReadLine().Split(", ",StringSplitOptions.RemoveEmptyEntries);
+            Dictionary<string, Dictionary<int, double>> result = new Dictionary<string, Dictionary<int, double>>();
+
+
+            for (int i = 0; i < names.Length; i++)
+            {
+                string name = names[i];
+                double damage = 0;
+
+                Regex regex = new Regex(@"([ |-]([0-9]+\.*[0-9]*)|[0-9]+)");
+                MatchCollection matches = regex.Matches(name);
+                foreach (Match item in matches)
+                {
+                    damage += double.Parse(item.Value);
+
+                }
+                char[] current = name.ToCharArray();
+                int health = 0;
+                bool oneLetter = false;
+                for (int j = 0; j < current.Length; j++)
+                {
+                    char now = current[j];
+                    if (now == ',' || now == ' ')
+                    { break; }
+                    if (char.IsLetter(now))
+                    { oneLetter = true;
+                        health += ((int)now); }
+                    if (now == '*')
+                    { damage *= 2; }
+                    if (now == '/')
+                    { damage /= 2; }
+                }
+                if (oneLetter == false)
+                { break; }
+                result[name] = new Dictionary<int, double>();
+                result[name][health] = damage;
+
+
+            }
+            foreach (var item in result.OrderBy(x=>x.Key))
+            {
+                
+                foreach (var stuff in item.Value)
+                {
+                    Console.WriteLine($"{item.Key} - { stuff.Key} health, {stuff.Value:f2} damage");
+                }
+  
+            }
+            
+        }
+    }
+}
