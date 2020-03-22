@@ -1,0 +1,145 @@
+//using System;
+//using System.Text.RegularExpressions;
+//using System.Collections.Generic;
+
+//namespace _3._Post_Office
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            string[] input = Console.ReadLine()
+//                .Split("|");
+//            string capitals = input[0];
+//            string lenght = input[1];
+//            string words = input[2];
+//            List<char> letters = new List<char>();
+
+//            Regex capital = new Regex(@"([(\#|\$|\%|\$)])[A-Z]+\1");
+//            MatchCollection cap = capital.Matches(capitals);
+//            foreach (Match item in cap)
+//            {
+//                string it = item.ToString();
+//                for (int i = 1; i < it.Length-1; i++)
+//                {
+//                    letters.Add(it[i]);
+
+//                }
+//            }
+//            Dictionary<int, int> lenghts = new Dictionary<int, int>();
+//            Regex l = new Regex(@"([0-9]+):([0-9]+)");
+//            MatchCollection len = l.Matches(lenght);
+//            foreach (Match item in len)
+//            {
+//                int letter = int.Parse(item.Groups[1].Value);
+//                int lenttt = int.Parse(item.Groups[2].Value);
+//                lenghts[letter] = lenttt;
+//            }
+//            List<string> result = new List<string>();
+//            foreach (var item in lenghts)
+//            {
+//                char Let = ((char)item.Key);
+//                int Len = item.Value;
+
+//                for (int i = 0; i < letters.Count; i++)
+//                {
+//                    if (letters[i] == Let)
+//                    { string pattern = $@"[{Let}][^\s]+";
+
+//                        Regex res = new Regex($"{pattern}");
+//                        MatchCollection r = res.Matches(words);
+//                        foreach (Match stuff in r)
+//                        {
+//                            string st = stuff.ToString();
+//                            if (stuff.Length == Len + 1)
+//                            { result.Add(st); }
+//                        }
+//                    }
+//                }
+//            }
+//            foreach (var item in result)
+//            {
+//                Console.WriteLine(item);
+
+//            }
+
+
+
+
+//        }
+//    }
+//}
+
+using System;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+
+namespace _3._Post_Office
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine()
+                .Split("|");
+            string capitals = input[0];
+            string lenght = input[1];
+            string words = input[2];
+            List<char> letters = new List<char>();
+
+            Regex capital = new Regex(@"([(\#|\$|\%|\$)])[A-Z]+\1");
+            MatchCollection cap = capital.Matches(capitals);
+            foreach (Match item in cap)
+            {
+                string it = item.ToString();
+                for (int i = 1; i < it.Length - 1; i++)
+                {
+                    letters.Add(it[i]);
+
+                }
+            }
+            Dictionary<int, int> lenghts = new Dictionary<int, int>();
+            Regex l = new Regex(@"([0-9]+):([0-9]+)");
+            MatchCollection len = l.Matches(lenght);
+            foreach (Match item in len)
+            {
+                int letter = int.Parse(item.Groups[1].Value);
+                int lenttt = int.Parse(item.Groups[2].Value);
+                lenghts[letter] = lenttt;
+            }
+            List<string> result = new List<string>();
+            foreach (var item in lenghts)
+            {
+                char Let = ((char)item.Key);
+                int Len = item.Value;
+
+                for (int i = 0; i < letters.Count; i++)
+                {
+                    if (letters[i] == Let)
+                    {
+                        string pattern = $@"[{Let}][^\s]+";
+
+                        Regex res = new Regex($"{pattern}");
+                        MatchCollection r = res.Matches(words);
+                        foreach (Match stuff in r)
+                        {
+                            string st = stuff.ToString();
+                            if (stuff.Length == Len + 1)
+                            { result.Add(st); }
+                        }
+                    }
+                }
+            }
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+
+            }
+
+
+
+
+        }
+    }
+}
+
